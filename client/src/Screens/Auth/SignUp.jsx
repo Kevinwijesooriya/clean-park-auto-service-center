@@ -2,7 +2,7 @@ import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const MakeAppointment = () => {
+const SignUp = () => {
   return (
     <>
       <Grid
@@ -25,10 +25,10 @@ const MakeAppointment = () => {
           }}
         >
           <Typography component="h1" variant="h4">
-            Make an appointment
+            Join our network
           </Typography>
           <Typography component="h1" variant="body1" color="#C0C0C0">
-            Tell us how you like it!
+            We&apos;d love to have you!
           </Typography>
           <Box
             component="form"
@@ -41,7 +41,7 @@ const MakeAppointment = () => {
               required
               fullWidth
               id="First name"
-              label="Vehicle type "
+              label="First name "
               name="firstName"
               autoComplete="firstName"
               autoFocus
@@ -51,7 +51,7 @@ const MakeAppointment = () => {
               required
               fullWidth
               id="lastName"
-              label="Vehicle number"
+              label="Last name"
               name="lastName"
               autoComplete="lastName"
               autoFocus
@@ -61,7 +61,7 @@ const MakeAppointment = () => {
               required
               fullWidth
               id="email"
-              label="Contact number"
+              label="Email Address"
               name="email"
               autoComplete="email"
               autoFocus
@@ -71,37 +71,7 @@ const MakeAppointment = () => {
               required
               fullWidth
               name="password"
-              label="Date"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Service type"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Time"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Leave a note"
+              label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -112,8 +82,36 @@ const MakeAppointment = () => {
               variant="contained"
               sx={{ mt: 2, mb: 3 }}
             >
-              Book now
+              Sign up
             </Button>
+            <Grid
+              container
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Grid item>
+                <Typography
+                  variant="body1"
+                  color="#C0C0C0"
+                  fontWeight="regular"
+                >
+                  Already have an account?{" "}
+                  <Typography
+                    component={Link}
+                    to="/auth/"
+                    variant="body1"
+                    color="#fff"
+                    fontWeight="medium"
+                    sx={{ textDecoration: "none" }}
+                  >
+                    Sign in
+                  </Typography>
+                </Typography>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Grid>
@@ -121,4 +119,4 @@ const MakeAppointment = () => {
   );
 };
 
-export default MakeAppointment;
+export default SignUp;

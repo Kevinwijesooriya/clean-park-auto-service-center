@@ -15,9 +15,14 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import logoImage from "../../Assets/Images/logomain.png";
 import { Stack } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
-const navItems = ["Home", "About us", "Contact"];
+const navItems = [
+  { label: "Home", path: "/home" },
+  { label: "Contact", path: "/home" },
+  { label: "My appointments", path: "/appointment/list" },
+];
 
 function MainHeader(props) {
   const { window } = props;
@@ -35,24 +40,40 @@ function MainHeader(props) {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
+          <ListItem key={item.label} disablePadding>
+            <ListItemButton
+              component={Link}
+              to={item.path}
+              sx={{ textAlign: "center" }}
+            >
+              <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>
         ))}
         <ListItem disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
+          <ListItemButton
+            component={Link}
+            to="/appointment"
+            sx={{ textAlign: "center" }}
+          >
             <ListItemText primary="Book now" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
+          <ListItemButton
+            component={Link}
+            to="/auth"
+            sx={{ textAlign: "center" }}
+          >
             <ListItemText primary="Log in" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
+          <ListItemButton
+            component={Link}
+            to="/auth/sign-up"
+            sx={{ textAlign: "center" }}
+          >
             <ListItemText primary="Sign up" />
           </ListItemButton>
         </ListItem>
@@ -89,28 +110,24 @@ function MainHeader(props) {
               <Stack direction={"row"} spacing={2}>
                 {navItems.map((item) => (
                   <Button
-                    key={item}
+                    key={item.label}
                     sx={{ color: "#fff", textTransform: "none" }}
+                    component={Link}
+                    to={item.path}
                   >
-                    {item}
+                    {item.label}
                   </Button>
                 ))}
-                <Button
-                  variant="contained"
-                  sx={{ color: "#fff", textTransform: "none" }}
-                >
+                <Button component={Link} to="/appointment" variant="contained">
                   Book now
                 </Button>
               </Stack>
             </Box>
             <Box sx={{ display: { xs: "none", md: "block" } }}>
-              <Button sx={{ color: "#fff", textTransform: "none" }}>
+              <Button component={Link} to="/auth/" sx={{ color: "#fff" }}>
                 Log in
               </Button>
-              <Button
-                variant="contained"
-                sx={{ color: "#fff", textTransform: "none" }}
-              >
+              <Button component={Link} to="/auth/sign-up" variant="contained">
                 Sign up
               </Button>
             </Box>
@@ -123,7 +140,7 @@ function MainHeader(props) {
             open={mobileOpen}
             onClose={handleDrawerToggle}
             ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+              keepMounted: true,
             }}
             sx={{
               display: { xs: "block", md: "none" },

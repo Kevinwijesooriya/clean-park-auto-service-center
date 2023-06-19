@@ -1,50 +1,23 @@
-import React from "react";
-import { Box, Typography, Container } from "@mui/material";
+import React, { useRef } from "react";
+import { Box } from "@mui/material";
 import WelcomeSection from "./Sections/WelcomeSection";
+import OurServicesSection from "./Sections/OurServicesSection";
+import AboutUsSection from "./Sections/AboutUsSection";
 
 const HomePage = () => {
+  const ourServicesRef = useRef(null);
+  const aboutUsRef = useRef(null);
   return (
-    <Container>
+    <>
       <Box>
-        <WelcomeSection />
-        <OurServicesSection />
-        <AboutUsSection />
+        <WelcomeSection ourServicesRef={ourServicesRef} />
+        <OurServicesSection
+          ourServicesRef={ourServicesRef}
+          aboutUsRef={aboutUsRef}
+        />
+        <AboutUsSection aboutUsRef={aboutUsRef} />
       </Box>
-    </Container>
-  );
-};
-
-const OurServicesSection = () => {
-  return (
-    <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Typography variant="h3" component="h2">
-        Our Services
-      </Typography>
-    </Box>
-  );
-};
-
-const AboutUsSection = () => {
-  return (
-    <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Typography variant="h3" component="h2">
-        About Us
-      </Typography>
-    </Box>
+    </>
   );
 };
 

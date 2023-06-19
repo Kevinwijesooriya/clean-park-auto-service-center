@@ -19,6 +19,9 @@ const CPTheme = createTheme({
   },
   typography: {
     fontFamily: "Raleway",
+    button: {
+      textTransform: "none",
+    },
   },
   shape: {
     borderRadius: 10, // Set the border radius to 10

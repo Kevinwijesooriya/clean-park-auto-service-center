@@ -2,7 +2,6 @@ import {
   Navigate,
   RouterProvider,
   createBrowserRouter,
-  useNavigate,
 } from "react-router-dom";
 
 import AuthLayout from "../Layouts/Auth/AuthLayout";
@@ -13,6 +12,7 @@ import HomePage from "../Screens/Home/HomePage";
 
 import AppointmentsLayout from "../Layouts/Appointments/AppointmentsLayout";
 import MakeAppointment from "../Screens/Appointments/MakeAppointment";
+import SignUp from "../Screens/Auth/SignUp";
 
 const authRouter = createBrowserRouter([
   {
@@ -31,6 +31,10 @@ const authRouter = createBrowserRouter([
         path: "/auth/",
         element: <Login />,
       },
+      {
+        path: "/auth/sign-up",
+        element: <SignUp />,
+      },
     ],
   },
 ]);
@@ -44,21 +48,33 @@ const privateRouter = createBrowserRouter([
     element: <Navigate to="/home" />,
   },
   {
-    path: "/home",
+    path: "/",
     element: <HomeLayout />,
     children: [
       {
         path: "/home/",
         element: <HomePage />,
       },
+      {
+        path: "/auth/",
+        element: <Login />,
+      },
+      {
+        path: "/auth/sign-up",
+        element: <SignUp />,
+      },
     ],
   },
   {
-    path: "/appointments",
+    path: "/appointment",
     element: <AppointmentsLayout />,
     children: [
       {
-        path: "/appointments/",
+        path: "/appointment/",
+        element: <MakeAppointment />,
+      },
+      {
+        path: "/appointment/list",
         element: <MakeAppointment />,
       },
     ],
