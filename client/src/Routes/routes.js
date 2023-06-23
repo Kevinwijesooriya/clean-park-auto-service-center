@@ -13,6 +13,11 @@ import HomePage from "../Screens/Home/HomePage";
 import AppointmentsLayout from "../Layouts/Appointments/AppointmentsLayout";
 import MakeAppointment from "../Screens/Appointments/MakeAppointment";
 import SignUp from "../Screens/Auth/SignUp";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/manageUsers";
+import AccountLayout from "../Layouts/Account/AccountLayout";
+import MyAppointments from "../Screens/Appointments/MyAppointments";
 
 const authRouter = createBrowserRouter([
   {
@@ -75,13 +80,35 @@ const privateRouter = createBrowserRouter([
       },
       {
         path: "/appointment/list",
+        element: <MyAppointments />,
+      },
+    ],
+  },
+  {
+    path: "/accounts",
+    element: <AccountLayout />,
+    children: [
+      {
+        path: "/accounts/settings",
         element: <MakeAppointment />,
       },
     ],
   },
 ]);
 const Router = () => {
-  const isLoggedIn = true;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log("onAuthStateChanged ~ user:", user);
+      if (user) {
+        // https://firebase.google.com/docs/reference/js/auth.user
+        // const uid = user.uid;
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(true);
+      }
+    });
+  }, []);
 
   return isLoggedIn ? (
     <RouterProvider router={privateRouter} />

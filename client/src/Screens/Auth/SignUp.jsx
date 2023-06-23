@@ -1,8 +1,47 @@
 import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../../firebase/manageUsers";
+import { authSignUp } from "../../firebase/Services/AuthService";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const currentUser = getCurrentUser();
+  const [payload, setPayload] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  useEffect(() => {
+    console.log("SignUp ~ currentUser:", currentUser);
+    if (currentUser) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onChangeInput = (e) => {
+    setPayload({
+      ...payload,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await authSignUp(payload);
+      console.log("authSignUp ~ response:", response);
+      if (response) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("authSignUp ~ error:", error);
+    }
+  };
+
   return (
     <>
       <Grid
@@ -33,18 +72,19 @@ const SignUp = () => {
           <Box
             component="form"
             noValidate
-            // onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e)}
             sx={{ mt: 1 }}
           >
             <TextField
               margin="normal"
               required
               fullWidth
-              id="First name"
+              id="firstName"
               label="First name "
               name="firstName"
               autoComplete="firstName"
               autoFocus
+              onChange={(e) => onChangeInput(e)}
             />
             <TextField
               margin="normal"
@@ -55,6 +95,7 @@ const SignUp = () => {
               name="lastName"
               autoComplete="lastName"
               autoFocus
+              onChange={(e) => onChangeInput(e)}
             />
             <TextField
               margin="normal"
@@ -65,6 +106,7 @@ const SignUp = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e) => onChangeInput(e)}
             />
             <TextField
               margin="normal"
@@ -75,6 +117,7 @@ const SignUp = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e) => onChangeInput(e)}
             />
             <Button
               type="submit"

@@ -6,7 +6,7 @@ const AboutUsSection = ({ aboutUsRef }) => {
     <Box
       ref={aboutUsRef}
       sx={{
-        height: "calc(100vh - 90px)",
+        height: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

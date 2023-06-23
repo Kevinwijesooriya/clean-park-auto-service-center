@@ -16,20 +16,26 @@ import Button from "@mui/material/Button";
 import logoImage from "../../Assets/Images/logomain.png";
 import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
+import { getCurrentUser } from "../../firebase/manageUsers";
+import UserDropdownMenu from "../Dropdowns/UserDropdownMenu";
+import { authSignOut } from "../../firebase/Services/AuthService";
 
 const drawerWidth = 240;
 const navItems = [
   { label: "Home", path: "/home" },
   { label: "Contact", path: "/home" },
-  { label: "My appointments", path: "/appointment/list" },
 ];
 
 function MainHeader(props) {
   const { window } = props;
+  const user = getCurrentUser();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+  };
+  const handleLogoutClick = () => {
+    authSignOut();
   };
 
   const drawer = (
@@ -59,24 +65,46 @@ function MainHeader(props) {
             <ListItemText primary="Book now" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            to="/auth"
-            sx={{ textAlign: "center" }}
-          >
-            <ListItemText primary="Log in" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            to="/auth/sign-up"
-            sx={{ textAlign: "center" }}
-          >
-            <ListItemText primary="Sign up" />
-          </ListItemButton>
-        </ListItem>
+        {user ? (
+          <>
+            <ListItem disablePadding>
+              <ListItemButton
+                component={Link}
+                to="/auth"
+                sx={{ textAlign: "center" }}
+              >
+                <ListItemText primary="Settings" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                component={Link}
+                to="/user/settings"
+                onClick={() => handleLogoutClick()}
+                sx={{ textAlign: "center" }}
+              >
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem disablePadding>
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary="Log in" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                component={Link}
+                to="/auth/sign-up"
+                sx={{ textAlign: "center" }}
+              >
+                <ListItemText primary="Sign up" />
+              </ListItemButton>
+            </ListItem>
+          </>
+        )}
       </List>
     </Box>
   );
@@ -88,7 +116,11 @@ function MainHeader(props) {
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ background: "#121212", paddingX: 4 }}>
+        <AppBar
+          position="relative"
+          component="nav"
+          sx={{ background: "#121212", paddingX: 4 }}
+        >
           <Toolbar>
             <IconButton
               color="inherit"
@@ -118,19 +150,34 @@ function MainHeader(props) {
                     {item.label}
                   </Button>
                 ))}
+                {user && (
+                  <Button
+                    component={Link}
+                    to="/appointment/list"
+                    sx={{ color: "#fff", textTransform: "none" }}
+                  >
+                    My appointments
+                  </Button>
+                )}
                 <Button component={Link} to="/appointment" variant="contained">
                   Book now
                 </Button>
               </Stack>
             </Box>
-            <Box sx={{ display: { xs: "none", md: "block" } }}>
-              <Button component={Link} to="/auth/" sx={{ color: "#fff" }}>
-                Log in
-              </Button>
-              <Button component={Link} to="/auth/sign-up" variant="contained">
-                Sign up
-              </Button>
-            </Box>
+            {user ? (
+              <Box sx={{ display: { xs: "none", md: "block" } }}>
+                <UserDropdownMenu />
+              </Box>
+            ) : (
+              <Box sx={{ display: { xs: "none", md: "block" } }}>
+                <Button component={Link} to="/auth/" sx={{ color: "#fff" }}>
+                  Log in
+                </Button>
+                <Button component={Link} to="/auth/sign-up" variant="contained">
+                  Sign up
+                </Button>
+              </Box>
+            )}
           </Toolbar>
         </AppBar>
         <Box component="nav">

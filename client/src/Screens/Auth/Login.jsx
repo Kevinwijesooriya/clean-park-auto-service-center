@@ -7,13 +7,45 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { authSignIn } from "../../firebase/Services/AuthService";
+import { getCurrentUser } from "../../firebase/manageUsers";
 
 const Login = () => {
+  const user = getCurrentUser();
+  const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
+  const [payload, setPayload] = useState({ email: "", password: "" });
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+
+  const onChangeInput = (e) => {
+    setPayload({
+      ...payload,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await authSignIn(payload);
+      console.log("Login ~ response:", response);
+      if (response) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("Login ~ error:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Login ~ user:", user);
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate, user]);
+
   return (
     <>
       <Grid
@@ -44,7 +76,7 @@ const Login = () => {
           <Box
             component="form"
             noValidate
-            // onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e)}
             sx={{ mt: 1 }}
           >
             <TextField
@@ -56,6 +88,7 @@ const Login = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e) => onChangeInput(e)}
             />
             <TextField
               margin="normal"
@@ -66,6 +99,7 @@ const Login = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e) => onChangeInput(e)}
             />
             <Box display="flex" alignItems="center">
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />

@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import MainFooter from "../../Common/Footers/MainFooter";
 import MainHeader from "../../Common/Headers/MainHeader";
 
-const AppointmentsLayout = () => {
+const AccountLayout = () => {
   return (
     <Box
       sx={{
@@ -22,4 +22,4 @@ const AppointmentsLayout = () => {
   );
 };
 
-export default AppointmentsLayout;
+export default AccountLayout;

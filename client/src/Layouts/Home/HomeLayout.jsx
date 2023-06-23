@@ -16,7 +16,6 @@ const HomeLayout = () => {
         }}
       >
         <MainHeader />
-        <Box sx={{ height: "90px" }} />
         <Box sx={{ flex: "1 0 auto" }}>
           <Outlet />
         </Box>
