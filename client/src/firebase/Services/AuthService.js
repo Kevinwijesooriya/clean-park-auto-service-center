@@ -4,6 +4,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../manageUsers";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 export const authSignIn = async (payload) => {
   try {
@@ -31,6 +33,16 @@ export const authSignUp = async (payload) => {
       payload.password
     );
     const user = userCredential.user;
+    // Add user data to Firestore collection
+    const userDocRef = doc(db, "user", user.uid);
+    await setDoc(userDocRef, {
+      uid: user.uid,
+      email: user.email,
+      // Add additional data from the payload
+      // excluding the password field
+      ...payload,
+      password: "",
+    });
     console.log("AuthService.authSignUp ~ user:", user);
     return user;
   } catch (error) {

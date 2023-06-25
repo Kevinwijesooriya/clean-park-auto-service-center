@@ -1,26 +1,26 @@
-import React from "react";
-import {
-  Box,
-  Grid,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-  Typography,
-} from "@mui/material";
-import EventIcon from "@mui/icons-material/AccessTime";
-import SettingsIcon from "@mui/icons-material/Settings";
+import React, { useEffect, useState } from "react";
+import { Box, Grid, Paper, Typography } from "@mui/material";
+import { getMyAppointments } from "../../firebase/Services/AppointmentService";
+import AppointmentCard from "./Components/AppointmentCard";
+import { getCurrentUser } from "../../firebase/manageUsers";
 
 const MyAppointments = () => {
-  const appointments = [
-    { id: 1, primary: "Appointment 1", secondary: "Secondary text 1" },
-    { id: 2, primary: "Appointment 2", secondary: "Secondary text 2" },
-    { id: 3, primary: "Appointment 3", secondary: "Secondary text 3" },
-    { id: 4, primary: "Appointment 4", secondary: "Secondary text 4" },
-    { id: 5, primary: "Appointment 5", secondary: "Secondary text 5" },
-  ];
+  const [appointments, setAppointments] = useState([]);
+  const user = getCurrentUser();
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const appointmentsArray = await getMyAppointments(user.uid);
+        setAppointments(appointmentsArray);
+      } catch (error) {
+        console.log("fetchAppointments ~ error:", error);
+      }
+    };
+    fetchAppointments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Grid
@@ -52,29 +52,13 @@ const MyAppointments = () => {
               flexDirection: "column",
               alignItems: "flex-start",
               width: "100%",
-            }} 
+            }}
           >
-            <List dense={false}>
-              {appointments.map((appointment) => (
-                <ListItem
-                  key={appointment.id}
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <SettingsIcon />
-                    </IconButton>
-                  }
-                  sx={{ width: "100%" }} // Expand the list item to full width
-                >
-                  <ListItemIcon>
-                    <EventIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={appointment.primary}
-                    secondary={appointment.secondary}
-                  />
-                </ListItem>
-              ))}
-            </List>
+            {appointments.map((appointment) => (
+              <>
+                <AppointmentCard appointment={appointment} />
+              </>
+            ))}
           </Box>
         </Box>
       </Grid>

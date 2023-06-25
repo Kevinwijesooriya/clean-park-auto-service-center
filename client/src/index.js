@@ -11,12 +11,17 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "typeface-raleway";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ToastContainer />
     <ThemeProvider theme={CPTheme}>
-      <Router />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Router />
+      </LocalizationProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
