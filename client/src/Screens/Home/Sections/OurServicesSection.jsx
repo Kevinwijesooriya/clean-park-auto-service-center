@@ -2,8 +2,16 @@ import { Box, Grid, IconButton, Typography } from "@mui/material";
 import React from "react";
 import ServiceCard from "../../../Common/Cards/ServiceCard";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { ServicesCarousel } from "../../../Common/Carousels/ServicesCarousel";
 
 const OurServicesSection = ({ ourServicesRef, aboutUsRef }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
   // eslint-disable-next-line no-unused-vars
   const handleAboutUsClick = () => {
     aboutUsRef.current.scrollIntoView({ behavior: "smooth" });
@@ -39,35 +47,8 @@ const OurServicesSection = ({ ourServicesRef, aboutUsRef }) => {
               Discover the Difference
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <ServiceCard
-              title="Vehicle Service"
-              description="Choose from our full service or normal service options."
-              services={["Full service", "Normal service"]}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <ServiceCard
-              title="Vehicle Check-up"
-              description="We offer comprehensive check-ups for your engine, gearbox, and battery."
-              services={[
-                "Engine check-up",
-                "Gearbox check-up",
-                "Battery check-up",
-              ]}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <ServiceCard
-              title="Vehicle Repairing"
-              description="Our experts can handle engine repairs, gearbox repairs, oil changes, and battery replacements."
-              services={[
-                "Engine repair",
-                "Gearbox repair",
-                "Oil change",
-                "Battery replacement",
-              ]}
-            />
+          <Grid item xs={12} sm={12}>
+            <ServicesCarousel />
           </Grid>
           <Grid
             item

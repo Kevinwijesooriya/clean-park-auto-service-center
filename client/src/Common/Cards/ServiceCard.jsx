@@ -10,7 +10,7 @@ const ServiceCard = ({ title, description, services }) => {
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${backgroundImg})`,
           padding: 4,
           borderRadius: 3,
-          height: "100%",
+          height: "50vh",
         }}
       >
         <Typography variant="h5" component="h2" sx={{ marginBottom: 2 }}>
